@@ -10,9 +10,9 @@ class ArrayGenerator {
     }
 
     static generateRandomArray(n, bound) {
-        let random = Math.random();
         let arr = new Array(n);
         for (let i = 0; i < arr.length; i++) {
+            let random = Math.random();
             arr[i] = Math.floor(random * bound);
         }
         return arr;
