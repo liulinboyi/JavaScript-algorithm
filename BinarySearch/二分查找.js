@@ -11,7 +11,7 @@ class BinarySearch {
     }
 
     /**
-     * 二分搜索前提就是数组是有序的
+     * 二分搜索前提就是数组是有序的单调的
      *
      * @param data
      * @param target
@@ -39,20 +39,38 @@ class BinarySearch {
     }
 
     static main() {
+        // 使用二分搜索，必须保证待查找集合是单调的
+        const STATUS = {
+            order: '有序单调',
+            random: '随机无需'
+        }
+        const status = STATUS.random
         let count = 100000;
-        let arr = ArrayGenerator.generateOrderArray(count);
+        let arr = []
+
+        if (status === STATUS.order) {
+            // 有序单调数组
+            arr = ArrayGenerator.generateOrderArray(count);
+        } else {
+            // 无序数组，极有可能查询不到待查元素
+            arr = ArrayGenerator.generateRandomArray(count, count);
+        }
+
         // let arr = [-1, 0, 3, 5, 9, 12];
         const target = Math.floor(Math.random() * count)
         let startTime = new Date().valueOf()
+        let result = -1
         for (let i = 0; i < 10000; i++) {
-            BinarySearch.searchRWrapper(arr, target);
+            result = BinarySearch.searchRWrapper(arr, target);
         }
+        console.log(`result ${result}`)
         let endTime = new Date().valueOf()
         console.log(`BinarySearch time is ${endTime - startTime}ms`)
         startTime = new Date().valueOf()
         for (let i = 0; i < 10000; i++) {
-            LinerSearch.search(arr, target)
+            result = LinerSearch.search(arr, target)
         }
+        console.log(`result ${result}`)
         endTime = new Date().valueOf()
         console.log(`LinerSearch time is ${endTime - startTime}ms`)
     }
